@@ -6,12 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/financial-system-project/GitOps.git
-    targetRevision: HEAD
-    path: charts/user
-    helm:
-      valueFiles:
-        - values.yaml
+    repoURL: oci://registry-1.docker.io/mahendra3
+      chart: user-service
+      targetRevision: 0.1.0
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
