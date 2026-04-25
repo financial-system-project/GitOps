@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "oci://registry-1.docker.io/mahendra3"
+    repoURL: "oci://registry-1.docker.io/mahendra3/user-service"
     chart: user-service
     targetRevision: "0.1.0"
   destination:
