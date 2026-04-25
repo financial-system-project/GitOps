@@ -43,7 +43,7 @@ spec:
               - name: data
                 mountPath: /var/lib/postgresql/data
             resources:
-              {{- toYaml .Values.postgresql.resources | nindent 12 }}
+              {{- toYaml .Values.postgresql.resources | nindent 14 }}
   volumeClaimTemplates:
     - metadata:
         name: data
