@@ -13,7 +13,7 @@ spec:
   template:
     metadata:
       annotations:
-        { { - toYaml .Values.podAnnotations | nindent 8 } }
+        {{- toYaml .Values.podAnnotations | nindent 8 }}
       labels:
         {{- include "user-service.selectorLabels" . | nindent 8 }}
     spec:
