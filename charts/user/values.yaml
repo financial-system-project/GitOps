@@ -9,6 +9,9 @@ service:
   type: ClusterIP
   port: 8080
 
+serviceAccount:
+  name: user-service
+
 database:
   host: user-service-postgres
   port: 5432
