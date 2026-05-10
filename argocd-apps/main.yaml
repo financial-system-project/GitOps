@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: main-app
-  namespace: bank-app-dev
+  namespace: argocd
 spec:
   project: default
   source:
@@ -11,7 +11,7 @@ spec:
     path: ./argocd-apps/microservice-apps
   destination:
     server: https://kubernetes.default.svc
-    namespace: bank-app-dev
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
