@@ -13,20 +13,7 @@ spec:
   template:
     metadata:
       annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: "user-service-role"
-        vault.hashicorp.com/agent-inject-secret-db-creds: "secret/user-service/db-creds"
-        vault.hashicorp.com/agent-inject-template-db-creds: |
-          {{`{{- with secret "secret/user-service/db-creds" -}}`}}
-          export DB_USER="{{`{{ .Data.data.DB_USER }}`}}"
-          export DB_PASSWORD="{{`{{ .Data.data.DB_PASSWORD }}`}}"
-          {{`{{- end }}`}}
-
-        vault.hashicorp.com/agent-inject-command: |
-          #!/bin/sh
-          set -e
-          source /vault/secrets/db-creds
-          java -jar /app/app.jar
+        { { - toYaml .Values.podAnnotations | nindent 8 } }
       labels:
         {{- include "user-service.selectorLabels" . | nindent 8 }}
     spec:
