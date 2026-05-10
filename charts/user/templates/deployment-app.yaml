@@ -22,7 +22,7 @@ spec:
           export DB_PASSWORD="{{`{{ .Data.data.DB_PASSWORD }}`}}"
           {{`{{- end }}`}}
 
-        vault.hashicorp.com/agent-inject-command-db-creds: |
+        vault.hashicorp.com/agent-inject-command: |
           #!/bin/sh
           set -e
           source /vault/secrets/db-creds
