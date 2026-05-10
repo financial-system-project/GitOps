@@ -18,8 +18,6 @@ database:
   host: user-service-postgres
   port: 5432
   name: userdb
-  user: admin
-  password: secret123
 
 postgresql:
   enabled: true

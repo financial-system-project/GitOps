@@ -42,8 +42,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "user-service.fullname" . }}-config
-            - secretRef:
-                name: {{ include "user-service.fullname" . }}-secret
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           livenessProbe:
