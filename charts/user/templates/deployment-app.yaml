@@ -27,6 +27,11 @@ spec:
             - -c
           args:
             - |
+              echo "Waiting for Vault secrets..."
+              while [ ! -f /vault/secrets/db-creds ]; do
+                sleep 1
+              done
+              echo "Secrets found, sourcing..."
               source /vault/secrets/db-creds
               exec java -jar /app/app.jar
           ports:

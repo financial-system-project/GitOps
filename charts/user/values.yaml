@@ -11,14 +11,9 @@ podAnnotations:
   vault.hashicorp.com/agent-inject-secret-db-creds: "secret/user-service/db-creds"
   vault.hashicorp.com/agent-inject-template-db-creds: |
     {{- with secret "secret/user-service/db-creds" -}}
-    export SPRING_DATASOURCE_USERNAME="{{ .Data.data.DB_USER }}"
-    export SPRING_DATASOURCE_PASSWORD="{{ .Data.data.DB_PASSWORD }}"
+    export DB_USER="{{ .Data.data.DB_USER }}"
+    export DB_PASSWORD="{{ .Data.data.DB_PASSWORD }}"
     {{- end }}
-  vault.hashicorp.com/agent-inject-command: |
-    #!/bin/sh
-    set -e
-    source /vault/secrets/db-creds
-    java -jar /app/app.jar
 
 service:
   type: ClusterIP
