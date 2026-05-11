@@ -12,28 +12,13 @@ spec:
       {{- include "user-service.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      annotations:
-        {{- toYaml .Values.podAnnotations | nindent 8 }}
       labels:
         {{- include "user-service.selectorLabels" . | nindent 8 }}
     spec:
-      serviceAccountName: {{ .Values.serviceAccount.name | default (include "user-service.fullname" .) }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
-            - /bin/sh
-            - -c
-          args:
-            - |
-              echo "Waiting for Vault secrets..."
-              while [ ! -f /vault/secrets/db-creds ]; do
-                sleep 1
-              done
-              echo "Secrets found, sourcing..."
-              source /vault/secrets/db-creds
-              exec java -jar /app/app.jar
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -41,6 +26,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "user-service.fullname" . }}-config
+            - secretRef:
+                name: {{ include "user-service.fullname" . }}-secret
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           livenessProbe:
