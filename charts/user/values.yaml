@@ -33,7 +33,7 @@ postgresql:
   enabled: true
   image:
     repository: postgres
-    tag: "29"
+    tag: "15-alpine"
   storage:
     size: 1Gi
     storageClass: ""
