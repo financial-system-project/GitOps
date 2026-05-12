@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: mahendra3/user
-  tag: "latest"
+  tag: "29"
   pullPolicy: IfNotPresent
 
 vault:
@@ -33,7 +33,7 @@ postgresql:
   enabled: true
   image:
     repository: postgres
-    tag: "15-alpine"
+    tag: "29"
   storage:
     size: 1Gi
     storageClass: ""
