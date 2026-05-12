@@ -1,0 +1,72 @@
+replicaCount: 1
+
+image:
+  repository: mahendra3/budget
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+vault:
+  enabled: true
+  server: "http://vault-app.vault:8200"
+  secretPath: "bank-app/db-budget"
+
+externalSecret:
+  refreshInterval: "1m"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 20
+
+service:
+  type: ClusterIP
+  port: 8083
+
+Namespace: bank-app-dev
+
+serviceAccount:
+  name: budget-service
+
+database:
+  host: budget-service-postgres
+  port: 5432
+  name: budgetdb
+
+postgresql:
+  enabled: true
+  image:
+    repository: postgres
+    tag: "15-alpine"
+  storage:
+    size: 1Gi
+    storageClass: ""
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "100m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: 8083
+  initialDelaySeconds: 60
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: 8083
+  initialDelaySeconds: 30
+  periodSeconds: 5

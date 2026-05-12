@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: budget-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/financial-system-project/GitOps.git
+    targetRevision: HEAD
+    path: charts/budget
+    helm:
+      releaseName: budget-service
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: bank-app-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

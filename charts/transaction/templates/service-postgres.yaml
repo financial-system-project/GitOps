@@ -1,0 +1,17 @@
+{{- if .Values.postgresql.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "transaction-service.fullname" . }}-postgres
+  namespace: {{ .Values.Namespace }}
+  labels:
+    {{- include "transaction-service.labels" . | nindent 4 }}
+spec:
+  clusterIP: None
+  selector:
+    app: {{ include "transaction-service.fullname" . }}-postgres
+  ports:
+      - port: {{ .Values.database.port }}
+        targetPort: postgres
+        name: postgres
+  {{- end }}

@@ -1,0 +1,17 @@
+{{- if .Values.postgresql.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "notification-service.fullname" . }}-postgres
+  namespace: {{ .Values.Namespace }}
+  labels:
+    {{- include "notification-service.labels" . | nindent 4 }}
+spec:
+  clusterIP: None
+  selector:
+    app: {{ include "notification-service.fullname" . }}-postgres
+  ports:
+      - port: {{ .Values.database.port }}
+        targetPort: postgres
+        name: postgres
+  {{- end }}

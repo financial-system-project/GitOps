@@ -1,0 +1,72 @@
+replicaCount: 1
+
+image:
+  repository: mahendra3/account
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+vault:
+  enabled: true
+  server: "http://vault-app.vault:8200"
+  secretPath: "bank-app/db-account"
+
+externalSecret:
+  refreshInterval: "1m"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 20
+
+service:
+  type: ClusterIP
+  port: 8081
+
+Namespace: bank-app-dev
+
+serviceAccount:
+  name: account-service
+
+database:
+  host: account-service-postgres
+  port: 5432
+  name: accountdb
+
+postgresql:
+  enabled: true
+  image:
+    repository: postgres
+    tag: "15-alpine"
+  storage:
+    size: 1Gi
+    storageClass: ""
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "100m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: 8081
+  initialDelaySeconds: 60
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: 8081
+  initialDelaySeconds: 30
+  periodSeconds: 5
