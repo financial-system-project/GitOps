@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: user
+  repository: mahendra3/user
   tag: "latest"
   pullPolicy: IfNotPresent
 
