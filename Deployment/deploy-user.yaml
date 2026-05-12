@@ -1,0 +1,7 @@
+---
+- name: Trigger ArgoCD Deployment
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - argocd

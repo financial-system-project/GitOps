@@ -1,0 +1,5 @@
+---
+argocd_server: "localhost:30531"
+argocd_app_name: "user-app"
+argocd_user: "{{ lookup('env', 'ARGOCD_USER') }}"
+argocd_pass: "{{ lookup('env', 'ARGOCD_PASS') }}"
