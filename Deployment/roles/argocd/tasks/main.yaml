@@ -31,3 +31,16 @@
 - name: Print final application status
   debug:
     var: final_status.stdout_lines
+
+- name: Get latest Git commit info
+  command:
+    cmd: >
+      git log -1 --pretty=format:"Author: %an | Commit: %h | Message: %s"
+  args:
+    chdir: .
+  register: git_commit
+  changed_when: false
+
+- name: Print deployment commit details
+  debug:
+    msg: "{{ git_commit.stdout }}"
