@@ -1,0 +1,49 @@
+Namespace: logging
+
+elasticsearch:
+  image:
+    repository: docker.elastic.co/elasticsearch/elasticsearch
+    tag: "8.13.0"
+  replicas: 1
+  storage:
+    size: 10Gi
+    storageClass: ""
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "500m"
+    limits:
+      memory: "2Gi"
+      cpu: "1000m"
+  javaOpts: "-Xms512m -Xmx512m"
+
+logstash:
+  image:
+    repository: docker.elastic.co/logstash/logstash
+    tag: "8.13.0"
+  replicas: 1
+  # TCP port that Spring Boot services ship logs to
+  tcpPort: 5000
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+
+kibana:
+  image:
+    repository: docker.elastic.co/kibana/kibana
+    tag: "8.13.0"
+  replicas: 1
+  service:
+    type: ClusterIP
+    port: 5601
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"

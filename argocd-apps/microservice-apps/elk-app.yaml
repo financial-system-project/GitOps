@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: elk-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/financial-system-project/GitOps.git
+    targetRevision: HEAD
+    path: charts/elk
+    helm:
+      releaseName: elk
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: logging
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true   # auto-create the logging namespace

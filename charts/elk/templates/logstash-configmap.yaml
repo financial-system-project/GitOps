@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-pipeline
+  namespace: {{ .Values.Namespace }}
+  labels:
+    app: logstash
+    {{- include "elk.labels" . | nindent 4 }}
+data:
+  logstash.conf: |
+    input {
+      # Spring Boot services ship JSON over TCP using logstash-logback-encoder
+      tcp {
+        port  => {{ .Values.logstash.tcpPort }}
+        codec => json_lines
+      }
+    }
+
+    filter {
+      # Parse the timestamp emitted by LogstashEncoder
+      date {
+        match    => ["@timestamp", "ISO8601"]
+        target   => "@timestamp"
+        timezone => "UTC"
+      }
+
+      # Promote service name to a top-level field for easy Kibana filtering
+      if [service] {
+        mutate { add_field => { "[@metadata][index_prefix]" => "%{service}" } }
+      } else {
+        mutate { add_field => { "[@metadata][index_prefix]" => "unknown-service" } }
+      }
+    }
+
+    output {
+      elasticsearch {
+        hosts => ["http://{{ include "elk.elasticsearch.fullname" . }}:9200"]
+        # One index per service per day: budget-service-2025.01.15
+        index => "%{[@metadata][index_prefix]}-%{+YYYY.MM.dd}"
+      }
+    }
