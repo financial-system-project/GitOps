@@ -38,7 +38,7 @@ kibana:
     tag: "8.13.0"
   replicas: 1
   service:
-    type: ClusterIP
+    type: NodePort
     port: 5601
   resources:
     requests:
