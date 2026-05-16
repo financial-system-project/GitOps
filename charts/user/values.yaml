@@ -70,3 +70,7 @@ readinessProbe:
     port: 8080
   initialDelaySeconds: 30
   periodSeconds: 5
+
+elk:
+  # In-cluster DNS: logstash.<namespace>:<port>
+  logstashHost: "logstash.logging:5000"
