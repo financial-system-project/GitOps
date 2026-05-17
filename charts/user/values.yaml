@@ -14,9 +14,9 @@ externalSecret:
   refreshInterval: "1m"
 
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 1
-  maxReplicas: 5
+  maxReplicas: 3
   targetCPUUtilizationPercentage: 20
 
 service:
