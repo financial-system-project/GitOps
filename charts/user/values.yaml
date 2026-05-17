@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: mahendra3/user
-  tag: "39"
+  tag: "40"
   pullPolicy: IfNotPresent
 
 vault:
