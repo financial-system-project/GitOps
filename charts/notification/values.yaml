@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: mahendra3/notification
-  tag: "6"
+  tag: "7"
   pullPolicy: IfNotPresent
 
 vault:
