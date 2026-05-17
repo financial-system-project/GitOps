@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: mahendra3/budget
-  tag: "13"
+  tag: "14"
   pullPolicy: IfNotPresent
 
 vault:
